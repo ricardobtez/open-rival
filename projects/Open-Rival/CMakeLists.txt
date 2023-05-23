@@ -260,7 +260,40 @@ set(OPEN_RIVAL_RESOURCES
     ${CMAKE_CURRENT_LIST_DIR}/Open-Rival.rc
 )
 
-add_executable(Open-Rival ${OPEN_RIVAL_SOURCES})
-target_include_directories(Open-Rival PRIVATE ${OPEN_RIVAL_INCLUDE_HEADERS})
-# TODO Link to external libraries
-target_link_libraries(Open-Rival PRIVATE )
+set(OPEN_RIVAL_ADDITIONAL_DIRECTORIES
+    ${CMAKE_CURRENT_LIST_DIR}/include
+    ${CMAKE_CURRENT_LIST_DIR}/libs/SDL2-2.0.14/include
+    ${CMAKE_CURRENT_LIST_DIR}/libs/SDL2_image-2.0.5/include
+    ${CMAKE_CURRENT_LIST_DIR}/libs/freetype-2.10.4/include
+    ${CMAKE_CURRENT_LIST_DIR}/libs/glew-2.1.0/include
+    ${CMAKE_CURRENT_LIST_DIR}/libs/glm-0.9.9.5
+    ${CMAKE_CURRENT_LIST_DIR}/libs/json
+    ${CMAKE_CURRENT_LIST_DIR}/libs/openal-soft-1.21.0/include
+    ${CMAKE_CURRENT_LIST_DIR}/libs/rtmidi-5.0.0
+)
+
+add_executable(Open-Rival ${OPEN_RIVAL_SOURCES} ${OPEN_RIVAL_RESOURCES})
+target_include_directories(Open-Rival PRIVATE ${OPEN_RIVAL_INCLUDE_HEADERS} ${OPEN_RIVAL_ADDITIONAL_DIRECTORIES})
+
+target_link_directories(Open-Rival PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}/libs/SDL2-2.0.14/lib/x86/
+    ${CMAKE_CURRENT_LIST_DIR}/libs/SDL2_image-2.0.5/lib/x86/
+    ${CMAKE_CURRENT_LIST_DIR}/libs/freetype-2.10.4/release/dll/win32/
+    ${CMAKE_CURRENT_LIST_DIR}/libs/glew-2.1.0/lib/Release/Win32
+    ${CMAKE_CURRENT_LIST_DIR}/libs/openal-soft-1.21.0/libs/Win32
+    ${CMAKE_CURRENT_LIST_DIR}/libs/rtmidi-5.0.0/Release
+)
+
+target_link_libraries(Open-Rival PRIVATE
+    freetype
+    glew32
+    glu32
+    OpenAL32
+    opengl32
+    RtMidi
+    SDL2
+    SDL2main
+    SDL2_image
+    winmm
+    Ws2_32
+)
