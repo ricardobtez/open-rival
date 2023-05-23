@@ -256,6 +256,18 @@ set(OPEN_RIVAL_INCLUDE_HEADERS
     ${CMAKE_CURRENT_LIST_DIR}/resource.h
 )
 
+set(OPEN_RIVAL_INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_LIST_DIR}/
+    ${CMAKE_CURRENT_LIST_DIR}/include
+    ${CMAKE_CURRENT_LIST_DIR}/include/gfx
+    ${CMAKE_CURRENT_LIST_DIR}/include/lobby
+    ${CMAKE_CURRENT_LIST_DIR}/include/net
+    ${CMAKE_CURRENT_LIST_DIR}/include/net/packet-handlers
+    ${CMAKE_CURRENT_LIST_DIR}/include/net/packets
+    ${CMAKE_CURRENT_LIST_DIR}/include/ui
+    ${CMAKE_CURRENT_LIST_DIR}/include/utils
+)
+
 set(OPEN_RIVAL_RESOURCES
     ${CMAKE_CURRENT_LIST_DIR}/Open-Rival.rc
 )
@@ -272,9 +284,17 @@ set(OPEN_RIVAL_ADDITIONAL_DIRECTORIES
     ${CMAKE_CURRENT_LIST_DIR}/libs/rtmidi-5.0.0
 )
 
+# Creates the executable including all the sources and resources
 add_executable(Open-Rival ${OPEN_RIVAL_SOURCES} ${OPEN_RIVAL_RESOURCES})
-target_include_directories(Open-Rival PRIVATE ${OPEN_RIVAL_INCLUDE_HEADERS} ${OPEN_RIVAL_ADDITIONAL_DIRECTORIES})
 
+# Add the directories and headers of the project
+target_include_directories(Open-Rival PRIVATE
+    ${OPEN_RIVAL_INCLUDE_HEADERS}
+    ${OPEN_RIVAL_INCLUDE_DIRECTORIES}
+    ${OPEN_RIVAL_ADDITIONAL_DIRECTORIES}
+)
+
+# Adds the directories where the linker can find the libraries
 target_link_directories(Open-Rival PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/libs/SDL2-2.0.14/lib/x86/
     ${CMAKE_CURRENT_LIST_DIR}/libs/SDL2_image-2.0.5/lib/x86/
@@ -284,6 +304,7 @@ target_link_directories(Open-Rival PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/libs/rtmidi-5.0.0/Release
 )
 
+# Adds the libraries it must link against to find the symbols
 target_link_libraries(Open-Rival PRIVATE
     freetype
     glew32
