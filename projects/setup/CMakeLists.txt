@@ -63,5 +63,3 @@ target_link_libraries(setup PRIVATE
 target_precompile_headers(setup PRIVATE
     ${OPEN_RIVAL_SETUP_PRECOMPILED_HEADERS}
 )
-
-
